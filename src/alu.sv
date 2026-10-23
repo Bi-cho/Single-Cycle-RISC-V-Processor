@@ -18,7 +18,7 @@
 // Fecha       | Autor                      | Descripción
 // ------------------------------------------------------------
 // 22/10/2026  | Gabriel Fernández Hidalgo  | Primera versión
-// ____/____/  | _________________  | ________________________
+// 23/10/2026  | Gabriel Fernández Hidalgo  | Implementación del default para evitar latches
 // ____/____/  | _________________  | ________________________
 //
 // ============================================================
@@ -60,7 +60,8 @@ module alu (
             ALU_ADD: Result = A + B;
             ALU_SUB: Result = A - B;
             ALU_AND: Result = A & B;
-            ALU_OR:  Result = A | B;            
+            ALU_OR:  Result = A | B;        
+            default: Result = 32'b0;   // para evitar latches en codigos no definidos  
         endcase
     end
 

@@ -20,7 +20,7 @@
 // Fecha       | Autor                      | Descripción
 // ------------------------------------------------------------
 // 22/10/2026  | Gabriel Fernández Hidalgo  | Primera versión
-// ____/____/  | _________________  | ________________________
+// 23/10/2026  | Gabriel Fernández Hidalgo  | Implementación del default para evitar latches
 // ____/____/  | _________________  | ________________________
 //
 // ============================================================
@@ -56,7 +56,8 @@ module imm_gen (
             // I type
             IMM_I:   ImmExt = {{20{Instr[31]}}, Instr[31:20]};
             // S type
-            IMM_S:   ImmExt = {{20{Instr[31]}}, Instr[31:25], Instr[11:7]};            
+            IMM_S:   ImmExt = {{20{Instr[31]}}, Instr[31:25], Instr[11:7]};     
+            default: ImmExt = 32'b0;   // para evitar latches en formatos no definidos       
         endcase
     end
 
