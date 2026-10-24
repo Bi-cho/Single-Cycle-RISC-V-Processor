@@ -1,7 +1,7 @@
 // ============================================================
 // Proyecto: Procesador RISC-V Uniciclo
 // Curso: Diseño de Sistemas Digitales
-// Grupo: TODO
+// Grupo: Sámara
 //
 // Módulo: Register File
 //
@@ -11,37 +11,8 @@
 // registro cuando la señal RegWrite está habilitada.
 //
 // Autor / Developer:
-// Nombre: ______________________________
-// Fecha de primera versión: ____/____/______
-//
-// Historial de modificaciones:
-// ------------------------------------------------------------
-// Fecha       | Autor              | Descripción
-// ------------------------------------------------------------
-// ____/____/  | _________________  | Primera versión
-// ____/____/  | _________________  | ________________________
-// ____/____/  | _________________  | ________________________
-//
-// ============================================================
-
-// ============================================================
-// ENTRADAS
-// ------------------------------------------------------------
-// clk          : Señal de reloj.
-// A1           : Dirección del primer registro a leer.
-// A2           : Dirección del segundo registro a leer.
-// A3           : Dirección del registro a escribir.
-// WD3          : Dato de 32 bits que será escrito.
-// RegWrite     : Habilita la escritura en el banco de registros.
-//
-// SALIDAS
-// ------------------------------------------------------------
-// RD1          : Dato leído del registro seleccionado por A1.
-// RD2          : Dato leído del registro seleccionado por A2.
-//
-// CONDICIÓN ESPECIAL
-// ------------------------------------------------------------
-// El registro x0 debe conservar siempre el valor 0.
+// Nombre: Luis
+// Fecha de primera versión: 24/10/2026
 // ============================================================
 
 module register_file (
@@ -58,13 +29,15 @@ module register_file (
     // ========================================================
     // IMPLEMENTACIÓN DEL MÓDULO
     // ========================================================
+    logic [31:0] rf [31:0];
 
-    // TODO: Declarar el banco de registros.
+    always_ff @(posedge clk) begin
+        if (RegWrite && A3 != 5'b00000) begin
+            rf[A3] <= WD3;
+        end
+    end
 
-    // TODO: Implementar la lógica de escritura.
-
-    // TODO: Implementar los puertos de lectura.
-
-    // TODO: Garantizar que x0 permanezca siempre en cero.
+    assign RD1 = (A1 != 5'b00000) ? rf[A1] : 32'b0;
+    assign RD2 = (A2 != 5'b00000) ? rf[A2] : 32'b0;
 
 endmodule

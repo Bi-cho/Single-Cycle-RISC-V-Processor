@@ -1,7 +1,7 @@
 // ============================================================
 // Proyecto: Procesador RISC-V Uniciclo
 // Curso: Diseño de Sistemas Digitales
-// Grupo: TODO
+// Grupo: Sámara
 //
 // Módulo: Multiplexor 2 a 1
 //
@@ -10,33 +10,8 @@
 // seleccionar una de dos entradas de datos.
 //
 // Autor / Developer:
-// Nombre: ______________________________
-// Fecha de primera versión: ____/____/______
-//
-// Historial de modificaciones:
-// ------------------------------------------------------------
-// Fecha       | Autor              | Descripción
-// ------------------------------------------------------------
-// ____/____/  | _________________  | Primera versión
-// ____/____/  | _________________  | ________________________
-// ____/____/  | _________________  | ________________________
-//
-// ============================================================
-
-// ============================================================
-// PARÁMETROS
-// ------------------------------------------------------------
-// WIDTH        : Cantidad de bits de las entradas y la salida.
-//
-// ENTRADAS
-// ------------------------------------------------------------
-// A            : Entrada 0.
-// B            : Entrada 1.
-// Select       : Señal de selección.
-//
-// SALIDAS
-// ------------------------------------------------------------
-// Y            : Entrada seleccionada.
+// Nombre: Luis
+// Fecha de primera versión: 24/10/2026
 // ============================================================
 
 module mux2to1 #(
@@ -51,7 +26,6 @@ module mux2to1 #(
     // ========================================================
     // IMPLEMENTACIÓN DEL MÓDULO
     // ========================================================
-
-    // TODO: Implementar multiplexor 2 a 1.
+    assign Y = Select ? B : A;
 
 endmodule
