@@ -69,9 +69,9 @@ Los archivos `.sv` utilizados localmente deben ser compatibles con los archivos 
 | Módulo | Implementación | Verificación | Estado |
 |---|---|---|---|
 | ALU | TODO | Pendiente | Pendiente |
-| Register File | Pendiente | Pendiente | Pendiente |
+| Register File | Todo | Pendiente | Pendiente |
 | Immediate Generator | TODO | Pendiente | Pendiente |
-| MUX | Pendiente | Pendiente | Pendiente |
+| MUX | Todo | Pendiente | Pendiente |
 
 ## Evidencia de verificación
 
