@@ -86,3 +86,5 @@ El equipo debe documentar los casos de prueba ejecutados utilizando la matriz de
 ## Importante
 
 Las plantillas proporcionan la interfaz y estructura inicial del proyecto. La implementación de los módulos, la ampliación de los testbenches y el análisis de los resultados son responsabilidad del equipo.
+
+
