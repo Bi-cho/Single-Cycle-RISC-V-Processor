@@ -1,9 +1,9 @@
 # Matriz de pruebas - Sámara
 
 Verificador: Andrés Rojas Viquez.
-Fecha de ejecución: 25/10/2026 17:57 (Costa Rica).
+Fecha de ejecución en EDA Playground: 25/10/2026 18:27 (Costa Rica).
 
-Los 13 casos se ejecutaron localmente con Icarus Verilog 13.0 sobre los módulos del repositorio Bi-cho/Single-Cycle-RISC-V-Processor, versión 155ed2f9360005b46606c203052273c923be451b. Resultado: 13 PASS. La ejecución oficial en EDA Playground sigue pendiente.
+Los 13 casos se ejecutaron en EDA Playground con Icarus Verilog 12.0 y opciones `-Wall -g2012`, usando los mismos módulos y testbenches subidos en la versión fd8430e9a8595bef6d8233d60cf8a485584db7a1 del repositorio. Resultado: 13 PASS. También se habían obtenido 13 PASS en la simulación local con Icarus Verilog 13.0.
 
 | ID | Módulo | Entrada / condición | Esperado | Obtenido | Estado |
 |---|---|---|---|---|---|
@@ -22,3 +22,5 @@ Los 13 casos se ejecutaron localmente con Icarus Verilog 13.0 sobre los módulos
 | MUX-02 | MUX | A=12345678; B=ABCDEF00; Select=1 | Y=abcdef00 | Y=abcdef00 | PASS |
 
 La resta de ALU-02 cubre el resultado negativo y ALU-03 cubre resultado cero y Zero=1.
+
+Simulaciones: [ALU](https://edaplayground.com/x/N9xm), [Register File](https://edaplayground.com/x/YxXV), [Immediate Generator](https://edaplayground.com/x/wYfw), [MUX](https://edaplayground.com/x/i8md).
