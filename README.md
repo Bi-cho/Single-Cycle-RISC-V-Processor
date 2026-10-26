@@ -35,6 +35,7 @@ RISC-V-CPU/
 │   ├── imm_gen_tb.sv
 │   └── mux_tb.sv
 ├── docs/
+│   └── matriz_pruebas.md
 └── README.md
 ```
 
@@ -68,10 +69,10 @@ Los archivos `.sv` utilizados localmente deben ser compatibles con los archivos 
 
 | Módulo | Implementación | Verificación | Estado |
 |---|---|---|---|
-| ALU | TODO | Pendiente | Pendiente |
-| Register File | Todo | Pendiente | Pendiente |
-| Immediate Generator | TODO | Pendiente | Pendiente |
-| MUX | Todo | Pendiente | Pendiente |
+| ALU | Implementada | 4/4 PASS (local) | EDA Playground pendiente |
+| Register File | Implementado | 3/3 PASS (local) | EDA Playground pendiente |
+| Immediate Generator | Implementado | 4/4 PASS (local) | EDA Playground pendiente |
+| MUX | Implementado | 2/2 PASS (local) | EDA Playground pendiente |
 
 ## Evidencia de verificación
 
@@ -87,4 +88,17 @@ El equipo debe documentar los casos de prueba ejecutados utilizando la matriz de
 
 Las plantillas proporcionan la interfaz y estructura inicial del proyecto. La implementación de los módulos, la ampliación de los testbenches y el análisis de los resultados son responsabilidad del equipo.
 
+## Verificación
 
+Se ejecutaron 13 casos mínimos con Icarus Verilog 13.0: 4 de ALU, 3 de banco de registros, 4 de inmediatos y 2 de MUX. Todos obtuvieron PASS. La resta comprueba un resultado negativo y el AND comprueba resultado cero y `Zero=1`.
+
+Cada testbench muestra esperado, obtenido y PASS/FAIL. Los resultados están en la [matriz de pruebas](docs/matriz_pruebas.md). La ejecución oficial en EDA Playground sigue pendiente.
+
+## Enlaces de EDA Playground
+
+| Módulo | Enlace |
+|---|---|
+| ALU | Pendiente |
+| Register File | Pendiente |
+| Immediate Generator | Pendiente |
+| MUX | Pendiente |
