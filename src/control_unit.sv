@@ -3,7 +3,8 @@
 // Curso: Diseño de Sistemas Digitales
 // Grupo: Sámara
 //
-// Módulo: Control Unit
+// Módulo: Control Unit (descripcion creada con apoyo de IA, 
+// para seguir el formato de los demás módulos)
 //
 // Descripción:
 // Decodifica la instrucción actual (op, funct3 y funct7) y genera
