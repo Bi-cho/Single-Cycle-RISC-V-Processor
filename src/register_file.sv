@@ -11,8 +11,36 @@
 // registro cuando la señal RegWrite está habilitada.
 //
 // Autor / Developer:
-// Nombre: Luis
+// Nombre: Luis Montoya Madrigal
 // Fecha de primera versión: 24/10/2026
+// Historial de modificaciones:
+// ------------------------------------------------------------
+// Fecha       | Autor              | Descripción
+// ------------------------------------------------------------
+// 24/10/2026 | Luis Montoya Madrigal | Primera versión
+// ____/____/  | _________________  | ________________________
+// ____/____/  | _________________  | ________________________
+//
+// ============================================================
+
+// ============================================================
+// ENTRADAS
+// ------------------------------------------------------------
+// clk          : Señal de reloj.
+// A1           : Dirección del primer registro a leer.
+// A2           : Dirección del segundo registro a leer.
+// A3           : Dirección del registro a escribir.
+// WD3          : Dato de 32 bits que será escrito.
+// RegWrite     : Habilita la escritura en el banco de registros.
+//
+// SALIDAS
+// ------------------------------------------------------------
+// RD1          : Dato leído del registro seleccionado por A1.
+// RD2          : Dato leído del registro seleccionado por A2.
+//
+// CONDICIÓN ESPECIAL
+// ------------------------------------------------------------
+// El registro x0 debe conservar siempre el valor 0.
 // ============================================================
 
 module register_file (

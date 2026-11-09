@@ -17,9 +17,9 @@
 // ------------------------------------------------------------
 // Fecha       | Autor              | Descripción
 // ------------------------------------------------------------
-// ____/____/  | _________________  | Primera versión
-// 21/10/2026 | Codex (apoyo IA)    | Borrador de pruebas automaticas; revisar por el verificador
-// 21/10/2026 | Codex (apoyo IA)    | Simplificacion a las pruebas minimas del enunciado
+// // 21/10/2026| Andrés Rojas Viquez | Primera versión
+// 21/10/2026 | Andrés Rojas Viquez  | Borrador de pruebas automaticas
+// 21/10/2026 | Andrés Rojas Viquez  | Simplificacion a las pruebas minimas del enunciado
 //
 // ============================================================
 
