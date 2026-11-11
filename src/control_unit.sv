@@ -4,7 +4,7 @@
 // Grupo: Sámara
 //
 // Módulo: Control Unit (descripcion creada con apoyo de IA, 
-// para seguir el formato de los demás módulos)
+// para seguir el formato de los modulos proporcionados en el capitulo 1)
 //
 // Descripción:
 // Decodifica la instrucción actual (op, funct3 y funct7) y genera
@@ -24,7 +24,8 @@
 // Fecha       | Autor                      | Descripción
 // ------------------------------------------------------------
 // 09/11/2026  | Gabriel Fernández Hidalgo  | Primera versión (esqueleto)
-//
+// 11/11/2026  | Gabriel Fernández Hidalgo  | Decodificación Tipo R: add, sub, and, or
+// 11/11/2026  | Gabriel Fernández Hidalgo  | Decodificación completa, se agregan casos addi, lw y sw
 // ============================================================
 
 // ============================================================
@@ -87,12 +88,8 @@ module control_unit (
     localparam logic [1:0] IMM_S = 2'b01;
 
     always_comb begin
-        // ----------------------------------------------------
-        // 1. Valores por defecto seguros
-        // Se asignan antes del case para que todas las salidas
-        // tengan valor en cualquier camino (evita latches) y para
+        // 1. Valores por defecto seguros (evita latches) y para
         // que una instrucción no soportada no escriba nada.
-        // ----------------------------------------------------
         RegWrite   = 1'b0;
         ALUSrc     = 1'b0;
         MemWrite   = 1'b0;
@@ -100,46 +97,80 @@ module control_unit (
         ImmSrc     = IMM_I;
         ALUControl = ALU_ADD;
 
-        // ----------------------------------------------------
         // 2. Decodificación por opcode
-        // Dentro de cada rama solo se cambian las señales que
-        // difieren del valor por defecto.
-        // ----------------------------------------------------
         case (op)
-
+            // Tipo R: add, sub, and, or  (rd = rs1 op rs2)
+            // ALUSrc 0
+            // Se revisa funct7, add y sub tienen el mismo funct3, solo los distingue funct7.
+            // ------------------------------------------------
             OP_RTYPE: begin
-                // TODO (Gabriel): add, sub, and, or.
-                // - Comparar funct3 Y funct7 con un if / else if.
-                // - Solo si la combinación es válida: RegWrite = 1 y
-                //   ALUControl = la operación que corresponda.
-                // - ¿Qué valor necesita ALUSrc aquí? ¿Hay que cambiarlo?
-                // - Rama else final: no hacer nada (xor, sll, slt...
-                //   se quedan con los valores por defecto).
+                if (funct3 == F3_ADD_SUB && funct7 == F7_NORMAL) begin
+                    RegWrite   = 1'b1;          // add
+                    ALUControl = ALU_ADD;
+                end
+                else if (funct3 == F3_ADD_SUB && funct7 == F7_SUB) begin
+                    RegWrite   = 1'b1;          // sub
+                    ALUControl = ALU_SUB;
+                end
+                else if (funct3 == F3_AND && funct7 == F7_NORMAL) begin
+                    RegWrite   = 1'b1;          // and
+                    ALUControl = ALU_AND;
+                end
+                else if (funct3 == F3_OR && funct7 == F7_NORMAL) begin
+                    RegWrite   = 1'b1;          // or
+                    ALUControl = ALU_OR;
+                end
+                else begin
+                    // xor, sll, slt, mul... no soportadas:
+                    // se quedan los valores por defecto (RegWrite = 0).
+                end
             end
-
+            // Tipo I addi 
+            // NO se revisa funct7
             OP_ITYPE: begin
-                // TODO (Gabriel): addi.
-                // - Revisar solo funct3. ¿Por qué NO se revisa funct7?
-                //   (pensar en addi x1, x0, -1)
-                // - Señales: RegWrite, ALUSrc, ImmSrc, ALUControl.
+                if (funct3 == F3_ADD_SUB) begin
+                    RegWrite   = 1'b1;
+                    ALUSrc     = 1'b1;          // segundo operando = ImmExt
+                    ImmSrc     = IMM_I;
+                    ALUControl = ALU_ADD;
+                end
+                else begin
+                    // xori, slti, ori... no soportadas.
+                end
             end
 
+            // lw 
+            // La ALU suma rs1 + imm para calcular la dirección, y ResultSrc = 1
+            // hace que rd reciba ReadData en vez de ALUResult.
             OP_LOAD: begin
-                // TODO (Gabriel): lw.
-                // - Revisar funct3 (lb y lh comparten este opcode).
-                // - ¿Qué señal hace que rd reciba el dato de memoria?
+                if (funct3 == F3_WORD) begin
+                    RegWrite   = 1'b1;
+                    ALUSrc     = 1'b1;
+                    ImmSrc     = IMM_I;         // lw usa inmediato tipo I
+                    ResultSrc  = 1'b1;          // rd <- ReadData
+                    ALUControl = ALU_ADD;
+                end
+                else begin
+                    // lb, lh, lbu, lhu no soportadas.
+                end
             end
-
+            // sw  
+            // RegWrite en 0 
+            // ResultSrc no importa se deja en 0.
             OP_STORE: begin
-                // TODO (Gabriel): sw.
-                // - Revisar funct3 (sb y sh comparten este opcode).
-                // - ¿Por qué RegWrite queda en 0?
-                // - ¿Qué formato de inmediato usa sw?
+                if (funct3 == F3_WORD) begin
+                    ALUSrc     = 1'b1;
+                    ImmSrc     = IMM_S;
+                    MemWrite   = 1'b1;
+                    ALUControl = ALU_ADD;
+                end
+                else begin
+                    // sb, sh no soportadas: MemWrite queda en 0.
+                end
             end
 
             default: begin
-                // Opcode no soportado (incluye 0x00000000 al final del
-                // programa): se mantienen los valores por defecto.
+                // Opcode no soportado 
             end
 
         endcase
