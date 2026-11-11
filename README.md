@@ -6,6 +6,10 @@
 
 Este paquete contiene las plantillas iniciales para el desarrollo y verificación de los componentes fundamentales del procesador RISC-V uniciclo.
 
+### Capítulo 2 - El datapath cobra vida
+
+Se integran los módulos del Capítulo 1 con módulos nuevos (PC, memoria de instrucciones, memoria de datos, unidad de control y top) para ejecutar las instrucciones `add`, `sub`, `and`, `or`, `addi`, `lw` y `sw`, una por ciclo.
+
 ## Grupo
 
 Nombre de grupo: Equipo Sámara
@@ -28,12 +32,14 @@ RISC-V-CPU/
 │   ├── alu.sv
 │   ├── register_file.sv
 │   ├── imm_gen.sv
-│   └── mux.sv
+│   ├── mux.sv
+│   └── control_unit.sv
 ├── testbench/
 │   ├── alu_tb.sv
 │   ├── register_file_tb.sv
 │   ├── imm_gen_tb.sv
-│   └── mux_tb.sv
+│   ├── mux_tb.sv
+│   └── control_unit_tb.sv
 ├── docs/
 │   └── matriz_pruebas.md
 └── README.md
@@ -45,6 +51,11 @@ RISC-V-CPU/
 - Register File
 - Immediate Generator
 - Multiplexor 2 a 1
+
+## Módulos del Capítulo 2
+
+- Unidad de control (`control_unit`): decodifica `op`, `funct3` y `funct7` y genera `RegWrite`, `ALUSrc`, `ImmSrc`, `MemWrite`, `ResultSrc` y `ALUControl`. Usa decodificación completa: una instrucción no soportada que comparte opcode con una soportada (por ejemplo `xor`, `xori`, `lb` o `sb`) deja `RegWrite = 0` y `MemWrite = 0`.
+- Program Counter, memoria de instrucciones, memoria de datos y top: pendientes.
 
 ## Ambiente de trabajo
 
@@ -73,6 +84,11 @@ Los archivos `.sv` utilizados localmente deben ser compatibles con los archivos 
 | Register File | Implementado | 3/3 PASS (local y EDA) | Verificado |
 | Immediate Generator | Implementado | 4/4 PASS (local y EDA) | Verificado |
 | MUX | Implementado | 2/2 PASS (local y EDA) | Verificado |
+| Control Unit | Implementada | 15/15 PASS (EDA) | Verificado |
+| Program Counter | Pendiente | Pendiente | Pendiente |
+| Instruction Memory | Pendiente | Pendiente | Pendiente |
+| Data Memory | Pendiente | Pendiente | Pendiente |
+| Top (`riscv_single_cycle`) | Pendiente | Pendiente | Pendiente |
 
 ## Evidencia de verificación
 
@@ -92,6 +108,8 @@ Las plantillas proporcionan la interfaz y estructura inicial del proyecto. La im
 
 Se ejecutaron 13 casos mínimos localmente con Icarus Verilog 13.0 y en EDA Playground con Icarus Verilog 12.0: 4 de ALU, 3 de banco de registros, 4 de inmediatos y 2 de MUX. Todos obtuvieron PASS. La resta comprueba un resultado negativo y el AND comprueba resultado cero y `Zero=1`.
 
+En el Capítulo 2, la unidad de control se verificó en EDA Playground con Icarus Verilog 12.0 (`-Wall -g2012`): 15 casos `CTRL-01` a `CTRL-15`, todos PASS. Cubren las 7 instrucciones soportadas, dos `addi` cuyos bits 31:25 se parecen a un `funct7` (inmediato `-1` y `1024`; ambos deben dar ADD y no SUB) y seis instrucciones no soportadas (`xor`, `mul`, `xori`, `lb`, `sb` y `0x00000000`) que no deben escribir registros ni memoria.
+
 Cada testbench muestra esperado, obtenido y PASS/FAIL. Los resultados están en la [matriz de pruebas](docs/matriz_pruebas.md). Las cuatro simulaciones de EDA Playground están guardadas con acceso público mediante sus enlaces.
 
 ## Enlaces de EDA Playground
@@ -102,3 +120,4 @@ Cada testbench muestra esperado, obtenido y PASS/FAIL. Los resultados están en 
 | Register File | [Abrir simulación](https://edaplayground.com/x/YxXV) |
 | Immediate Generator | [Abrir simulación](https://edaplayground.com/x/wYfw) |
 | MUX | [Abrir simulación](https://edaplayground.com/x/i8md) |
+| Control Unit | [Abrir simulación](https://edaplayground.com/x/i8md)  |
