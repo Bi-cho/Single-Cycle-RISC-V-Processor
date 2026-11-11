@@ -28,8 +28,9 @@
 // ------------------------------------------------------------
 // Fecha       | Autor                      | Descripción
 // ------------------------------------------------------------
-// 11/11/2026  | Gabriel Fernández Hidalgo  | Primera versión
+// 11/11/2026  | Gabriel Fernández Hidalgo  | Primera versión (Tipo R)
 // 11/11/2026  | Gabriel Fernández Hidalgo  | se agregan casos addi, lw y sw
+// 11/11/2026  | Gabriel Fernández Hidalgo  | se agregan casos no soportados
 // ============================================================
 
 `timescale 1ns/1ps
@@ -64,7 +65,7 @@ module control_unit_tb;
             $display("CTRL-01 PASS");
         else $display("CTRL-01 FAIL");
 
-        // CTRL-02: sub x4, x3, x1 (op=0110011 f3=000 f7=0100000).
+        // sub (op=0110011 f3=000 f7=0100000).
         Instr = 32'h40118233;
         #10;
         $display("CTRL-02 esperado=RegWrite=1 ALUSrc=0 MemWrite=0 ResultSrc=0 ImmSrc=00 ALUControl=0001");
@@ -75,7 +76,7 @@ module control_unit_tb;
             $display("CTRL-02 PASS");
         else $display("CTRL-02 FAIL");
 
-        // CTRL-03: and x5, x1, x2 (op=0110011 f3=111 f7=0000000).
+        // and (op=0110011 f3=111 f7=0000000).
         Instr = 32'h0020F2B3;
         #10;
         $display("CTRL-03 esperado=RegWrite=1 ALUSrc=0 MemWrite=0 ResultSrc=0 ImmSrc=00 ALUControl=0010");
@@ -86,7 +87,7 @@ module control_unit_tb;
             $display("CTRL-03 PASS");
         else $display("CTRL-03 FAIL");
 
-        // CTRL-04: or x6, x1, x2 (op=0110011 f3=110 f7=0000000).
+        // or (op=0110011 f3=110 f7=0000000).
         Instr = 32'h0020E333;
         #10;
         $display("CTRL-04 esperado=RegWrite=1 ALUSrc=0 MemWrite=0 ResultSrc=0 ImmSrc=00 ALUControl=0011");
@@ -97,7 +98,7 @@ module control_unit_tb;
             $display("CTRL-04 PASS");
         else $display("CTRL-04 FAIL");
 
-        // CTRL-05: addi x1, x0, 10 (op=0010011 f3=000).
+        // addi (op=0010011 f3=000).
         Instr = 32'h00A00093;
         #10;
         $display("CTRL-05 esperado=RegWrite=1 ALUSrc=1 MemWrite=0 ResultSrc=0 ImmSrc=00 ALUControl=0000");
@@ -108,7 +109,7 @@ module control_unit_tb;
             $display("CTRL-05 PASS");
         else $display("CTRL-05 FAIL");
 
-        // CTRL-06: lw x5, 0(x0) (op=0000011 f3=010).
+        // lw (op=0000011 f3=010).
         Instr = 32'h00002283;
         #10;
         $display("CTRL-06 esperado=RegWrite=1 ALUSrc=1 MemWrite=0 ResultSrc=1 ImmSrc=00 ALUControl=0000");
@@ -119,7 +120,7 @@ module control_unit_tb;
             $display("CTRL-06 PASS");
         else $display("CTRL-06 FAIL");
 
-        // CTRL-07: sw x4, 0(x0) (op=0100011 f3=010).
+        // sw (op=0100011 f3=010).
         Instr = 32'h00402023;
         #10;
         $display("CTRL-07 esperado=RegWrite=0 ALUSrc=1 MemWrite=1 ResultSrc=0 ImmSrc=01 ALUControl=0000");
@@ -130,7 +131,7 @@ module control_unit_tb;
             $display("CTRL-07 PASS");
         else $display("CTRL-07 FAIL");
 
-        // ================= Trampa addi contra sub =================
+        // ================= addi contra sub =================
         // CTRL-08: addi x1, x0, -1 (bits 31:25 = 1111111, bit 30 = 1). Debe dar ADD.
         Instr = 32'hFFF00093;
         #10;
@@ -165,7 +166,7 @@ module control_unit_tb;
             $display("CTRL-10 PASS");
         else $display("CTRL-10 FAIL");
 
-        // CTRL-11: mul x3, x1, x2 (mismo op y f3 que add, f7=0000001).
+        // mul (mismo op y f3 que add, f7=0000001).
         Instr = 32'h022081B3;
         #10;
         $display("CTRL-11 esperado=RegWrite=0 ALUSrc=0 MemWrite=0 ResultSrc=0 ImmSrc=00 ALUControl=0000");
@@ -176,7 +177,7 @@ module control_unit_tb;
             $display("CTRL-11 PASS");
         else $display("CTRL-11 FAIL");
 
-        // CTRL-12: xori x7, x1, 5 (mismo opcode que addi, f3=100).
+        // xori (mismo opcode que addi, f3=100).
         Instr = 32'h0050C393;
         #10;
         $display("CTRL-12 esperado=RegWrite=0 ALUSrc=0 MemWrite=0 ResultSrc=0 ImmSrc=00 ALUControl=0000");
@@ -187,7 +188,7 @@ module control_unit_tb;
             $display("CTRL-12 PASS");
         else $display("CTRL-12 FAIL");
 
-        // CTRL-13: lb x5, 0(x0) (mismo opcode que lw, f3=000).
+        // lb (mismo opcode que lw, f3=000).
         Instr = 32'h00000283;
         #10;
         $display("CTRL-13 esperado=RegWrite=0 ALUSrc=0 MemWrite=0 ResultSrc=0 ImmSrc=00 ALUControl=0000");
@@ -198,7 +199,7 @@ module control_unit_tb;
             $display("CTRL-13 PASS");
         else $display("CTRL-13 FAIL");
 
-        // CTRL-14: sb x4, 0(x0) (mismo opcode que sw, f3=000).
+        // sb (mismo opcode que sw, f3=000).
         Instr = 32'h00400023;
         #10;
         $display("CTRL-14 esperado=RegWrite=0 ALUSrc=0 MemWrite=0 ResultSrc=0 ImmSrc=00 ALUControl=0000");
@@ -209,7 +210,7 @@ module control_unit_tb;
             $display("CTRL-14 PASS");
         else $display("CTRL-14 FAIL");
 
-        // CTRL-15: 0x00000000 opcode invalido.
+        //  0x00000000 opcode invalido.
         Instr = 32'h00000000;
         #10;
         $display("CTRL-15 esperado=RegWrite=0 ALUSrc=0 MemWrite=0 ResultSrc=0 ImmSrc=00 ALUControl=0000");
