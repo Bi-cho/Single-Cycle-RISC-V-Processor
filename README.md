@@ -22,8 +22,6 @@ Nombre de grupo: Equipo Sámara
 - Verification Engineer: Andrés Rojas Viquez
 - Documentation & Configuration Engineer: Franco Jesús Plano
 
-Los roles representan responsabilidades principales. Todos los integrantes deben conocer el funcionamiento general de los módulos y estar preparados para explicar el diseño durante la defensa.
-
 ## Estructura
 
 ```text
@@ -65,13 +63,11 @@ Single-Cycle-RISC-V-Processor/
 
 Simulación oficial: EDA Playground con Icarus Verilog 12 (`-Wall -g2012`).
 
-## Convenciones
+## Características del diseño
 
-1. Encabezado obligatorio en cada `.sv` con historial.
-2. No cambiar nombres de módulos, puertos ni instancias del contrato.
-3. Reset activo en alto y síncrono (solo afecta al PC).
-4. Indexación de memorias con `A[7:2]` (byte address → word index).
-5. El register file no tiene reset; `x0` siempre lee 0.
+- Reset activo en alto y síncrono; solo afecta al PC.
+- Indexación de memorias con `A[7:2]`: dirección de byte a índice de palabra.
+- El banco de registros no tiene reset; `x0` siempre lee cero.
 
 ## Estado de los módulos
 
@@ -94,6 +90,8 @@ Simulación oficial: EDA Playground con Icarus Verilog 12 (`-Wall -g2012`).
 - Integración Cap. 2: programa propio de 8 instrucciones. Resultados: x1=12, x2=-5, x3=7, x4=17, x5=8, x6=-1, x7=8, Mem[56]=8.
 - Todos los casos de integración (INT-01 a INT-09) obtuvieron PASS en EDA Playground.
 
+Las codificaciones de `program.s` y `program.hex` se obtuvieron desglosando los formatos R, I y S. Se validaron en Ripes 2.2.6, modelo uniciclo RV32I sin extensiones, comparando la ejecución del ensamblador con el binario correspondiente al hexadecimal y comprobando los resultados de registros y memoria.
+
 ## Enlaces de EDA Playground
 
 | Módulo | Enlace |
@@ -110,17 +108,6 @@ Simulación oficial: EDA Playground con Icarus Verilog 12 (`-Wall -g2012`).
 1. SystemVerilog + Icarus Verilog 12, flags `-Wall -g2012`.
 2. Subir todos los archivos de `src/` (incluyendo `riscv_single_cycle.sv`).
 3. Subir `testbench/riscv_single_cycle_tb.sv` como testbench.
-4. Subir `programs/program.hex` como archivo adicional.
+4. Agregar el contenido de `programs/program.hex` como archivo adicional llamado `program.hex` en la raíz del Playground.
 5. Run. El TB verifica reset, secuencia del PC y resultados de las 7 instrucciones (INT-01 a INT-09).
-
-## Acceso jerárquico desde el TB
-
-- `dut.u_pc.PC`
-- `dut.u_imem.mem[i]`
-- `dut.u_rf.rf[i]`
-- `dut.u_dmem.mem[i]`
-
-## Para la defensa
-
-Poder explicar el recorrido completo de `lw` y `sw` por el datapath (fetch → decode → execute → mem → writeback).
 
