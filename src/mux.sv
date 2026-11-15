@@ -3,36 +3,26 @@
 // Curso: Diseño de Sistemas Digitales
 // Grupo: Sámara
 //
-// Módulo: Multiplexor 2 a 1
+// Módulo: Multiplexor 2 a 1 (Parametrizable)
 //
 // Descripción:
-// Implementa un multiplexor 2 a 1 parametrizable que permite
-// seleccionar una de dos entradas de datos.
+// Multiplexor combinacional que selecciona entre dos entradas (A o B)
+// dependiendo del valor de la señal Select.
 //
-// Autor / Developer:
-// Nombre: Luis Montoya Madrigal
+// Autor: Luis Montoya Madrigal
 // Fecha de primera versión: 24/10/2026
+//
 // Historial de modificaciones:
 // ------------------------------------------------------------
-// Fecha       | Autor              | Descripción
+// Fecha       | Autor                      | Descripción
 // ------------------------------------------------------------
-// 24/10/2026 | Luis Montoya Madrigal | Primera versión
-// ============================================================
-
-// ============================================================
-// PARÁMETROS
-// ------------------------------------------------------------
-// WIDTH        : Cantidad de bits de las entradas y la salida.
+// 24/10/2026  | Luis Montoya Madrigal      | Primera versión
+// 10/11/2026  | Luis Montoya Madrigal      | Actualización de encabezado Cap. 2
 //
-// ENTRADAS
-// ------------------------------------------------------------
-// A            : Entrada 0.
-// B            : Entrada 1.
-// Select       : Señal de selección.
-//
-// SALIDAS
-// ------------------------------------------------------------
-// Y            : Entrada seleccionada.
+// ============================================================
+// PARÁMETROS: WIDTH (ancho de bits, por defecto 32)
+// ENTRADAS: A[WIDTH-1:0], B[WIDTH-1:0], Select
+// SALIDAS:  Y[WIDTH-1:0]
 // ============================================================
 
 module mux2to1 #(

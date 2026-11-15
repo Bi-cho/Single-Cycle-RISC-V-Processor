@@ -6,39 +6,23 @@
 // Módulo: Register File
 //
 // Descripción:
-// Implementa el banco de 32 registros de 32 bits del procesador.
-// Permite leer dos registros simultáneamente y escribir un
-// registro cuando la señal RegWrite está habilitada.
+// Banco de 32 registros de 32 bits. Permite lectura combinacional
+// simultánea en dos puertos y escritura síncrona en un puerto.
+// El registro x0 está protegido y siempre retorna 0.
 //
-// Autor / Developer:
-// Nombre: Luis Montoya Madrigal
+// Autor: Luis Montoya Madrigal
 // Fecha de primera versión: 24/10/2026
+//
 // Historial de modificaciones:
 // ------------------------------------------------------------
-// Fecha       | Autor              | Descripción
+// Fecha       | Autor                      | Descripción
 // ------------------------------------------------------------
-// 24/10/2026 | Luis Montoya Madrigal | Primera versión
+// 24/10/2026  | Luis Montoya Madrigal      | Primera versión
+// 10/11/2026  | Luis Montoya Madrigal      | Actualización de encabezado Cap. 2
 //
 // ============================================================
-
-// ============================================================
-// ENTRADAS
-// ------------------------------------------------------------
-// clk          : Señal de reloj.
-// A1           : Dirección del primer registro a leer.
-// A2           : Dirección del segundo registro a leer.
-// A3           : Dirección del registro a escribir.
-// WD3          : Dato de 32 bits que será escrito.
-// RegWrite     : Habilita la escritura en el banco de registros.
-//
-// SALIDAS
-// ------------------------------------------------------------
-// RD1          : Dato leído del registro seleccionado por A1.
-// RD2          : Dato leído del registro seleccionado por A2.
-//
-// CONDICIÓN ESPECIAL
-// ------------------------------------------------------------
-// El registro x0 debe conservar siempre el valor 0.
+// ENTRADAS: clk, A1[4:0], A2[4:0], A3[4:0], WD3[31:0], RegWrite
+// SALIDAS:  RD1[31:0], RD2[31:0]
 // ============================================================
 
 module register_file (
