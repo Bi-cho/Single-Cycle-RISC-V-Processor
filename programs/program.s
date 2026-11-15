@@ -4,8 +4,8 @@
 # Primera version: 14/11/2026
 # Historial: 14/11/2026 | Andres Rojas Viquez | Programa ilustrativo
 # Historial: 14/11/2026 | Andres Rojas Viquez | Programa propio minimo
-# Cubre add, sub, and, or, addi, sw y lw, sin pseudoinstrucciones.
-# Todos los operandos se inicializan antes de usarse; x0 siempre lee cero.
+# El programa usa add, sub, and, or, addi, sw y lw, sin pseudoinstrucciones.
+# Los registros necesarios se cargan antes de usarse. x0 se lee siempre como cero.
 .text
 addi x1, x0, 12       # PC=0x00 | 00c00093 | x1=12
 addi x2, x0, -5       # PC=0x04 | ffb00113 | x2=-5

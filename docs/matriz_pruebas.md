@@ -28,13 +28,13 @@ Simulaciones: [ALU](https://edaplayground.com/x/N9xm), [Register File](https://e
 
 ## Capítulo 2 - verificación de integración
 
-Regresión local del 14/11/2026 con Icarus Verilog 13.0 (`-Wall -g2012`): 13/13 PASS de los TB del Capítulo 1 y 15/15 PASS del TB de control existente. Se conserva arriba la evidencia histórica del Capítulo 1.
+El 14/11/2026 se repitieron las pruebas del Capítulo 1 y de la unidad de control con Icarus Verilog 13.0 (`-Wall -g2012`). Se obtuvieron 13/13 PASS y 15/15 PASS, respectivamente. Los resultados anteriores del Capítulo 1 se mantienen en la tabla de arriba.
 
-Programa propio: `programs/program.s` y `programs/program.hex`, ocho instrucciones. Valores de referencia comprobados en Ripes, modelo uniciclo RV32I. Las direcciones son de byte; 0xe0 corresponde a la palabra 56 de DMEM.
+El programa propio se encuentra en `programs/program.s` y `programs/program.hex` y contiene ocho instrucciones. Sus resultados esperados se comprobaron en Ripes con el procesador uniciclo RV32I. La dirección de byte 0xe0 corresponde a la posición 56 de la memoria de datos.
 
-Integración ejecutada localmente el 15/11/2026 con Icarus Verilog 13.0 y opciones `-Wall -g2012`, usando los módulos reales y el testbench de la versión `5e34967f9d4058361262e96ddb3c57b2ab748123` del repositorio. Resultado: **9/9 PASS**. Los valores de referencia de Ripes coinciden con los obtenidos por el procesador.
+El 15/11/2026 se probó el procesador completo con Icarus Verilog 13.0 y las opciones `-Wall -g2012`. Se usaron los módulos y el testbench de la versión `5e34967` del repositorio. Los nueve casos obtuvieron **PASS**. Los resultados del procesador coincidieron con los esperados en Ripes.
 
-Enlace de integración publicado por el equipo: [EDA Playground](https://edaplayground.com/x/wYH8).
+La simulación del equipo está disponible en [EDA Playground](https://edaplayground.com/x/wYH8).
 
 | ID | Instrucción o secuencia | Condición inicial | Esperado | Obtenido local (Icarus 13) | Estado |
 |---|---|---|---|---|---|

@@ -3,17 +3,17 @@
 // Curso: Diseno de Sistemas Digitales EL-3310
 // Grupo: Samara
 // Testbench: Integracion del procesador
-// Descripcion: ejecuta un programa propio y comprueba reset,
-// secuencia del PC y las siete instrucciones obligatorias.
+// Descripcion: Se ejecuta un programa propio y se comprueban el reset,
+// el avance del PC y los resultados de las siete instrucciones.
 // Responsable / Verification Engineer: Andres Rojas Viquez
 // Fecha de primera version: 14/11/2026
 // Historial de modificaciones:
 // Fecha       | Autor                           | Descripcion
 // 14/11/2026  | Andres Rojas Viquez | Primera version
 // 14/11/2026  | Andres Rojas Viquez | Reducir al alcance minimo
-// ENTRADAS: ninguna; los estimulos se generan en este testbench.
-// SALIDAS: esperado, obtenido, PASS/FAIL y resumen en consola.
-// Requiere los nombres de instancia del contrato del equipo.
+// ENTRADAS: No se reciben entradas externas. Las señales se generan aqui.
+// SALIDAS: Se muestran los valores esperados y obtenidos, y PASS/FAIL por caso.
+// Se usan los nombres de instancia acordados por el equipo.
 // ============================================================
 `timescale 1ns/1ps
 
@@ -39,8 +39,8 @@ module riscv_single_cycle_tb;
     initial begin
         clk = 1'b0;
         reset = 1'b1;
-        // El reset solo afecta al PC. Instrucciones cero durante ese
-        // flanco evitan escrituras mientras se inicializa el procesador.
+        // El reset solo reinicia el PC. Durante ese primer ciclo se dejan
+        // instrucciones en cero para evitar cambios en registros y memoria.
         #1;
         for (i = 0; i < 64; i = i + 1)
             dut.u_imem.mem[i] = 32'h00000000;
@@ -48,14 +48,14 @@ module riscv_single_cycle_tb;
         #1;
         comprobar("INT-01", dut.u_pc.PC, 32'd0);
 
-        // Cambiar el programa y quitar reset con el reloj en bajo.
+        // El programa se carga y el reset se desactiva con el reloj en cero.
         @(negedge clk);
         $readmemh("program.hex", dut.u_imem.mem, 0, 7);
         reset = 1'b0;
         secuencia_correcta = 1'b1;
         for (i = 0; i < 8; i = i + 1) begin
             @(posedge clk);
-            // Esperar las escrituras sincronas antes de observarlas.
+            // Se espera a que terminen las escrituras antes de revisar los valores.
             #1;
             $display("INT-02 esperado=PC=%08h obtenido=PC=%08h",
                      32'd4 * (i + 1), dut.u_pc.PC);

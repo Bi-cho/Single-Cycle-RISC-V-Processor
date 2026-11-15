@@ -65,8 +65,8 @@ Simulación oficial: EDA Playground con Icarus Verilog 12 (`-Wall -g2012`).
 
 ## Características del diseño
 
-- Reset activo en alto y síncrono; solo afecta al PC.
-- Indexación de memorias con `A[7:2]`: dirección de byte a índice de palabra.
+- El reset se activa con un 1 y reinicia el PC en el flanco positivo del reloj.
+- Las memorias usan los bits `A[7:2]` para seleccionar la palabra que se lee o se escribe.
 - El banco de registros no tiene reset; `x0` siempre lee cero.
 
 ## Estado de los módulos
@@ -90,7 +90,7 @@ Simulación oficial: EDA Playground con Icarus Verilog 12 (`-Wall -g2012`).
 - Integración Cap. 2: programa propio de 8 instrucciones. Resultados: x1=12, x2=-5, x3=7, x4=17, x5=8, x6=-1, x7=8, Mem[56]=8.
 - Todos los casos de integración (INT-01 a INT-09) obtuvieron PASS en EDA Playground.
 
-Las codificaciones de `program.s` y `program.hex` se obtuvieron desglosando los formatos R, I y S. Se validaron en Ripes 2.2.6, modelo uniciclo RV32I sin extensiones, comparando la ejecución del ensamblador con el binario correspondiente al hexadecimal y comprobando los resultados de registros y memoria.
+Se revisaron los campos de los formatos R, I y S para obtener el código hexadecimal de cada instrucción. Luego se ejecutaron el programa en ensamblador y su versión binaria en Ripes 2.2.6, con el procesador uniciclo RV32I sin extensiones. En ambos casos se obtuvieron los mismos valores en los registros y la memoria.
 
 ## Enlaces de EDA Playground
 
@@ -103,11 +103,11 @@ Las codificaciones de `program.s` y `program.hex` se obtuvieron desglosando los 
 | Control Unit | [Abrir](https://edaplayground.com/x/TUw6) |
 | **Integración (top)** | [Abrir](https://edaplayground.com/x/wYH8) |
 
-## Cómo correr la integración en EDA Playground
+## Cómo ejecutar la simulación en EDA Playground
 
-1. SystemVerilog + Icarus Verilog 12, flags `-Wall -g2012`.
-2. Subir todos los archivos de `src/` (incluyendo `riscv_single_cycle.sv`).
-3. Subir `testbench/riscv_single_cycle_tb.sv` como testbench.
-4. Agregar el contenido de `programs/program.hex` como archivo adicional llamado `program.hex` en la raíz del Playground.
-5. Run. El TB verifica reset, secuencia del PC y resultados de las 7 instrucciones (INT-01 a INT-09).
+1. Se seleccionan SystemVerilog e Icarus Verilog 12, con las opciones `-Wall -g2012`.
+2. Se agregan al diseño todos los archivos de `src/`, incluido `riscv_single_cycle.sv`.
+3. Se agrega `testbench/riscv_single_cycle_tb.sv` como archivo de pruebas.
+4. Se crea un archivo llamado `program.hex` en la raíz del Playground y se copia el contenido de `programs/program.hex`.
+5. Se pulsa Run. La simulación comprueba el reset, el avance del PC y los resultados de las siete instrucciones, mediante los casos INT-01 a INT-09.
 
