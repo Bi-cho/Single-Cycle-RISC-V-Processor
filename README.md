@@ -43,16 +43,9 @@ RISC-V-CPU/
 │   └── riscv_single_cycle_tb.sv
 ├── programs/
 │   ├── program.s
-│   ├── program.hex
-│   ├── prog2.s
-│   └── prog2.hex
-├── scripts/
-│   ├── run_verification.py
-│   └── verify_programs.py
+│   └── program.hex
 ├── docs/
-│   ├── matriz_pruebas.md
-│   ├── verificacion_cap2.md
-│   └── evidencia_cap2/
+│   └── matriz_pruebas.md
 └── README.md
 ```
 
@@ -133,18 +126,17 @@ Cada testbench muestra esperado, obtenido y PASS/FAIL. Los resultados están en 
 | MUX | [Abrir simulación](https://edaplayground.com/x/i8md) |
 | Control Unit | [Abrir simulación](https://edaplayground.com/x/TUw6) |
 
-## Verificación del Capítulo 2 preparada por Andrés
+## Prueba de integración del Capítulo 2
 
-Los programas ilustrativo (6 instrucciones) y propio (23 instrucciones) están en `programs/`, con ensamblador y palabras hexadecimales. Ambos se ejecutaron en Ripes 2.2.6 con `RV32_SS` sin extensiones; las entradas `.s` y `.hex` coincidieron en registros y memoria observada. La regresión local del 14/11/2026 obtuvo 13/13 PASS del Capítulo 1 y 15/15 PASS de control con Icarus 13.0.
+El programa propio `programs/program.s` contiene 8 instrucciones y usa las siete operaciones obligatorias. Su codificación está en `programs/program.hex`. Resultados esperados: x1=12, x2=-5, x3=7, x4=17, x5=8, x6=-1, x7=8 y memoria de datos en 0xe0=8.
 
-El TB de integración prepara 38 casos, pero la ejecución contra el procesador real y su enlace de EDA **están pendientes** de recibir PC, memorias y top. La validación del TB con un modelo temporal no se cuenta como verificación del procesador del equipo.
+Las palabras hexadecimales se prepararon desglosando los formatos R, I y S y se validaron en Ripes 2.2.6, modelo Single-cycle RV32I sin extensiones. Se ejecutaron el archivo `.s` ensamblado por Ripes y el binario correspondiente al `.hex`, comprobando registros y memoria. No se desarrolló un ensamblador.
 
-Instrucciones, resultados esperados, codificación manual y explicación para la defensa: [guía de verificación](docs/verificacion_cap2.md). Los casos de integración están añadidos a la [matriz](docs/matriz_pruebas.md) como PENDIENTE.
+Para simular en EDA Playground:
 
-```text
-python scripts/run_verification.py
-python scripts/verify_programs.py --ripes RUTA_A_RIPES
-python scripts/run_verification.py --integration
-```
+1. Elegir SystemVerilog e Icarus Verilog 12, con opciones `-Wall -g2012`.
+2. Colocar `riscv_single_cycle_tb.sv` como único testbench y agregar todos los módulos de `src/` al diseño, una sola vez.
+3. Agregar `program.hex` en la raíz del Playground.
+4. Ejecutar y registrar en la matriz los nueve casos: reset, secuencia del PC y las siete instrucciones.
 
-El primer comando ejecuta los cinco TB unitarios; puede recibir `--iverilog RUTA_A_IVERILOG`. El último requiere el RTL completo y devuelve un estado pendiente si falta. Los logs temporales se guardan en `build/`. Para la integración, el script ejecuta desde `programs/` para encontrar los `.hex`; en EDA estos archivos deben agregarse en la raíz del Playground. No ejecutar simultáneamente los TB unitarios y el de integración.
+La integración real y su enlace de EDA están pendientes de recibir `program_counter.sv`, `instr_mem.sv`, `data_mem.sv` y `riscv_single_cycle.sv`.

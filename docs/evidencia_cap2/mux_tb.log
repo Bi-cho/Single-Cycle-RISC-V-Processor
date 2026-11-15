@@ -1,5 +1,0 @@
-MUX-01 esperado=Y=12345678 obtenido=Y=12345678
-MUX-01 PASS
-MUX-02 esperado=Y=abcdef00 obtenido=Y=abcdef00
-MUX-02 PASS
-<repositorio>\testbench\mux_tb.sv:52: $finish called at 20000 (1ps)
