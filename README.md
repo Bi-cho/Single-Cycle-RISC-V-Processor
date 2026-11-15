@@ -4,11 +4,11 @@
 
 ### Capítulo 1 - Los cimientos
 
-Este paquete contiene las plantillas iniciales para el desarrollo y verificación de los componentes fundamentales del procesador RISC-V uniciclo.
+Módulos fundamentales verificados: ALU, Register File, Immediate Generator y MUX.
 
 ### Capítulo 2 - El datapath cobra vida
 
-Se integran los módulos del Capítulo 1 con módulos nuevos (PC, memoria de instrucciones, memoria de datos, unidad de control y top) para ejecutar las instrucciones `add`, `sub`, `and`, `or`, `addi`, `lw` y `sw`, una por ciclo.
+Integración de los módulos del Cap. 1 con PC, memorias, unidad de control y top para ejecutar `add`, `sub`, `and`, `or`, `addi`, `lw` y `sw` (una instrucción por ciclo). `PCNext = PC + 4` siempre.
 
 ## Grupo
 
@@ -20,26 +20,30 @@ Nombre de grupo: Equipo Sámara
 - Hardware Developer 1: Luis Montoya Madrigal
 - Hardware Developer 2: Gabriel Fernández Hidalgo
 - Verification Engineer: Andrés Rojas Viquez
-- Documentation & Configuration Engineer: Franco Jesús Plano 
+- Documentation & Configuration Engineer: Franco Jesús Plano
 
 Los roles representan responsabilidades principales. Todos los integrantes deben conocer el funcionamiento general de los módulos y estar preparados para explicar el diseño durante la defensa.
 
 ## Estructura
 
 ```text
-RISC-V-CPU/
+Single-Cycle-RISC-V-Processor/
 ├── src/
 │   ├── alu.sv
-│   ├── register_file.sv
+│   ├── control_unit.sv
+│   ├── data_mem.sv
 │   ├── imm_gen.sv
+│   ├── instr_mem.sv
 │   ├── mux.sv
-│   └── control_unit.sv
+│   ├── program_counter.sv
+│   ├── register_file.sv
+│   └── riscv_single_cycle.sv
 ├── testbench/
 │   ├── alu_tb.sv
-│   ├── register_file_tb.sv
+│   ├── control_unit_tb.sv
 │   ├── imm_gen_tb.sv
 │   ├── mux_tb.sv
-│   ├── control_unit_tb.sv
+│   ├── register_file_tb.sv
 │   └── riscv_single_cycle_tb.sv
 ├── programs/
 │   ├── program.s
@@ -49,94 +53,74 @@ RISC-V-CPU/
 └── README.md
 ```
 
-## Módulos del Capítulo 1
-
-- ALU
-- Register File
-- Immediate Generator
-- Multiplexor 2 a 1
-
 ## Módulos del Capítulo 2
 
-- Unidad de control (`control_unit`): decodifica `op`, `funct3` y `funct7` y genera `RegWrite`, `ALUSrc`, `ImmSrc`, `MemWrite`, `ResultSrc` y `ALUControl`. Usa decodificación completa: una instrucción no soportada que comparte opcode con una soportada (por ejemplo `xor`, `xori`, `lb` o `sb`) deja `RegWrite = 0` y `MemWrite = 0`.
-- Program Counter, memoria de instrucciones, memoria de datos y top: pendientes.
+- Program Counter (`program_counter`): registro de 32 bits con reset síncrono activo en alto.
+- Instruction Memory (`instr_mem`): 64 palabras, lectura combinacional `mem[A[7:2]]`, carga con `$readmemh`.
+- Data Memory (`data_mem`): 64 palabras, lectura combinacional y escritura síncrona con `WE`.
+- Control Unit (`control_unit`): decodificación completa de las 7 instrucciones. Instrucciones no soportadas dejan `RegWrite=0` y `MemWrite=0`.
+- Top (`riscv_single_cycle`): integra todo el datapath. Puertos solo `clk` y `reset`.
 
 ## Ambiente de trabajo
 
-Editor recomendado: Visual Studio Code.
-
-Simulación oficial: EDA Playground.
-
-Los archivos `.sv` utilizados localmente deben ser compatibles con los archivos entregados y simulados en EDA Playground.
+Simulación oficial: EDA Playground con Icarus Verilog 12 (`-Wall -g2012`).
 
 ## Convenciones
 
-1. No eliminar el encabezado de los archivos proporcionados.
-2. Completar el nombre de grupo, autor y fecha de primera versión.
-3. Registrar las modificaciones importantes en el historial del archivo.
-4. No borrar entradas anteriores del historial de modificaciones.
-5. Mantener los nombres de módulos y puertos proporcionados, salvo autorización del profesor.
-6. Completar las secciones marcadas como `TODO`.
-7. Los testbenches deben verificar los casos requeridos por la especificación y pueden incluir casos adicionales.
-8. Cada resultado presentado debe poder ser explicado durante la defensa.
+1. Encabezado obligatorio en cada `.sv` con historial.
+2. No cambiar nombres de módulos, puertos ni instancias del contrato.
+3. Reset activo en alto y síncrono (solo afecta al PC).
+4. Indexación de memorias con `A[7:2]` (byte address → word index).
+5. El register file no tiene reset; `x0` siempre lee 0.
 
 ## Estado de los módulos
 
 | Módulo | Implementación | Verificación | Estado |
 |---|---|---|---|
-| ALU | Implementada | 4/4 PASS (local y EDA) | Verificado |
-| Register File | Implementado | 3/3 PASS (local y EDA) | Verificado |
-| Immediate Generator | Implementado | 4/4 PASS (local y EDA) | Verificado |
-| MUX | Implementado | 2/2 PASS (local y EDA) | Verificado |
-| Control Unit | Implementada | 15/15 PASS (EDA) | Verificado |
-| Program Counter | Pendiente | Pendiente | Pendiente |
-| Instruction Memory | Pendiente | Pendiente | Pendiente |
-| Data Memory | Pendiente | Pendiente | Pendiente |
-| Top (`riscv_single_cycle`) | Pendiente | Pendiente | Pendiente |
-
-## Evidencia de verificación
-
-El equipo debe documentar los casos de prueba ejecutados utilizando la matriz de pruebas solicitada en las instrucciones del proyecto. Cada caso debe incluir como mínimo:
-
-- Identificador del test.
-- Condición o entrada utilizada.
-- Resultado esperado.
-- Resultado obtenido.
-- Estado PASS/FAIL.
-
-## Importante
-
-Las plantillas proporcionan la interfaz y estructura inicial del proyecto. La implementación de los módulos, la ampliación de los testbenches y el análisis de los resultados son responsabilidad del equipo.
+| ALU | Implementada | 4/4 PASS | Verificado |
+| Register File | Implementado | 3/3 PASS | Verificado |
+| Immediate Generator | Implementado | 4/4 PASS | Verificado |
+| MUX | Implementado | 2/2 PASS | Verificado |
+| Control Unit | Implementada | 15/15 PASS | Verificado |
+| Program Counter | Implementado | Integración PASS | Verificado |
+| Instruction Memory | Implementado | Integración PASS | Verificado |
+| Data Memory | Implementado | Integración PASS | Verificado |
+| Top (`riscv_single_cycle`) | Implementado | INT-01 a INT-09 PASS | Verificado |
 
 ## Verificación
 
-Se ejecutaron 13 casos mínimos localmente con Icarus Verilog 13.0 y en EDA Playground con Icarus Verilog 12.0: 4 de ALU, 3 de banco de registros, 4 de inmediatos y 2 de MUX. Todos obtuvieron PASS. La resta comprueba un resultado negativo y el AND comprueba resultado cero y `Zero=1`.
-
-En el Capítulo 2, la unidad de control se verificó en EDA Playground con Icarus Verilog 12.0 (`-Wall -g2012`): 15 casos `CTRL-01` a `CTRL-15`, todos PASS. Cubren las 7 instrucciones soportadas, dos `addi` cuyos bits 31:25 se parecen a un `funct7` (inmediato `-1` y `1024`; ambos deben dar ADD y no SUB) y seis instrucciones no soportadas (`xor`, `mul`, `xori`, `lb`, `sb` y `0x00000000`) que no deben escribir registros ni memoria.
-
-Cada testbench muestra esperado, obtenido y PASS/FAIL. Los resultados están en la [matriz de pruebas](docs/matriz_pruebas.md). Las cuatro simulaciones de EDA Playground están guardadas con acceso público mediante sus enlaces.
+- Cap. 1: 13/13 PASS (ALU, RF, imm_gen, MUX).
+- Control Unit: 15/15 PASS en EDA Playground.
+- Integración Cap. 2: programa propio de 8 instrucciones. Resultados: x1=12, x2=-5, x3=7, x4=17, x5=8, x6=-1, x7=8, Mem[56]=8.
+- Todos los casos de integración (INT-01 a INT-09) obtuvieron PASS en EDA Playground.
 
 ## Enlaces de EDA Playground
 
 | Módulo | Enlace |
 |---|---|
-| ALU | [Abrir simulación](https://edaplayground.com/x/N9xm) |
-| Register File | [Abrir simulación](https://edaplayground.com/x/YxXV) |
-| Immediate Generator | [Abrir simulación](https://edaplayground.com/x/wYfw) |
-| MUX | [Abrir simulación](https://edaplayground.com/x/i8md) |
-| Control Unit | [Abrir simulación](https://edaplayground.com/x/TUw6) |
+| ALU | [Abrir](https://edaplayground.com/x/N9xm) |
+| Register File | [Abrir](https://edaplayground.com/x/YxXV) |
+| Immediate Generator | [Abrir](https://edaplayground.com/x/wYfw) |
+| MUX | [Abrir](https://edaplayground.com/x/i8md) |
+| Control Unit | [Abrir](https://edaplayground.com/x/TUw6) |
+| **Integración (top)** | [Abrir simulación](https://edaplayground.com/x/wYH8) |
 
-## Prueba de integración del Capítulo 2
+## Cómo correr la integración en EDA Playground
 
-El programa propio `programs/program.s` contiene 8 instrucciones y usa las siete operaciones obligatorias. Su codificación está en `programs/program.hex`. Resultados esperados: x1=12, x2=-5, x3=7, x4=17, x5=8, x6=-1, x7=8 y memoria de datos en 0xe0=8.
+1. SystemVerilog + Icarus Verilog 12, flags `-Wall -g2012`.
+2. Subir todos los archivos de `src/` (incluyendo `riscv_single_cycle.sv`).
+3. Subir `testbench/riscv_single_cycle_tb.sv` como testbench.
+4. Subir `programs/program.hex` como archivo adicional.
+5. Run. El TB verifica reset, secuencia del PC y resultados de las 7 instrucciones (INT-01 a INT-09).
 
-Las palabras hexadecimales se prepararon desglosando los formatos R, I y S y se validaron en Ripes 2.2.6, modelo Single-cycle RV32I sin extensiones. Se ejecutaron el archivo `.s` ensamblado por Ripes y el binario correspondiente al `.hex`, comprobando registros y memoria. No se desarrolló un ensamblador.
+## Acceso jerárquico desde el TB
 
-Para simular en EDA Playground:
+- `dut.u_pc.PC`
+- `dut.u_imem.mem[i]`
+- `dut.u_rf.rf[i]`
+- `dut.u_dmem.mem[i]`
 
-1. Elegir SystemVerilog e Icarus Verilog 12, con opciones `-Wall -g2012`.
-2. Colocar `riscv_single_cycle_tb.sv` como único testbench y agregar todos los módulos de `src/` al diseño, una sola vez.
-3. Agregar `program.hex` en la raíz del Playground.
-4. Ejecutar y registrar en la matriz los nueve casos: reset, secuencia del PC y las siete instrucciones.
+## Para la defensa
 
-La integración real y su enlace de EDA están pendientes de recibir `program_counter.sv`, `instr_mem.sv`, `data_mem.sv` y `riscv_single_cycle.sv`.
+Poder explicar el recorrido completo de `lw` y `sw` por el datapath (fetch → decode → execute → mem → writeback).
+
