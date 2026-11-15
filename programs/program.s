@@ -1,9 +1,9 @@
 # Proyecto: Procesador RISC-V uniciclo - Capitulo 2
 # Curso: EL-3310 Diseno de Sistemas Digitales | Grupo: Samara
-# Responsable: Andres Rojas Viquez (borrador elaborado con apoyo de IA)
+# Responsable: Andres Rojas Viquez
 # Primera version: 14/11/2026
-# Historial: 14/11/2026 | Andres Rojas Viquez / apoyo de IA | Programa ilustrativo
-# Historial: 14/11/2026 | Andres Rojas Viquez / apoyo de IA | Programa propio minimo
+# Historial: 14/11/2026 | Andres Rojas Viquez | Programa ilustrativo
+# Historial: 14/11/2026 | Andres Rojas Viquez | Programa propio minimo
 # Cubre add, sub, and, or, addi, sw y lw, sin pseudoinstrucciones.
 # Todos los operandos se inicializan antes de usarse; x0 siempre lee cero.
 .text

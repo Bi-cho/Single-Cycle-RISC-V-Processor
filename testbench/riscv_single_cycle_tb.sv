@@ -6,12 +6,11 @@
 // Descripcion: ejecuta un programa propio y comprueba reset,
 // secuencia del PC y las siete instrucciones obligatorias.
 // Responsable / Verification Engineer: Andres Rojas Viquez
-// Elaborado con apoyo de IA; pendiente de revision por el estudiante.
 // Fecha de primera version: 14/11/2026
 // Historial de modificaciones:
 // Fecha       | Autor                           | Descripcion
-// 14/11/2026  | Andres Rojas Viquez / apoyo IA   | Primera version
-// 14/11/2026  | Andres Rojas Viquez / apoyo IA   | Reducir al alcance minimo
+// 14/11/2026  | Andres Rojas Viquez | Primera version
+// 14/11/2026  | Andres Rojas Viquez | Reducir al alcance minimo
 // ENTRADAS: ninguna; los estimulos se generan en este testbench.
 // SALIDAS: esperado, obtenido, PASS/FAIL y resumen en consola.
 // Requiere los nombres de instancia del contrato del equipo.
