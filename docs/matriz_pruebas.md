@@ -32,16 +32,18 @@ Regresión local del 14/11/2026 con Icarus Verilog 13.0 (`-Wall -g2012`): 13/13 
 
 Programa propio: `programs/program.s` y `programs/program.hex`, ocho instrucciones. Valores de referencia comprobados en Ripes, modelo uniciclo RV32I. Las direcciones son de byte; 0xe0 corresponde a la palabra 56 de DMEM.
 
-**Integración PENDIENTE:** faltan PC, memorias y top. Los resultados de Ripes son valores esperados; la columna Obtenido se completará ejecutando el procesador del equipo.
+Integración ejecutada localmente el 15/11/2026 con Icarus Verilog 13.0 y opciones `-Wall -g2012`, usando los módulos reales y el testbench de la versión `5e34967f9d4058361262e96ddb3c57b2ab748123` del repositorio. Resultado: **9/9 PASS**. Los valores de referencia de Ripes coinciden con los obtenidos por el procesador.
 
-| ID | Instrucción o secuencia | Condición inicial | Esperado | Obtenido | Estado |
+Enlace de integración publicado por el equipo: [EDA Playground](https://edaplayground.com/x/wYH8).
+
+| ID | Instrucción o secuencia | Condición inicial | Esperado | Obtenido local (Icarus 13) | Estado |
 |---|---|---|---|---|---|
-| INT-01 | Reset | reset=1; flanco positivo | PC=00000000 | Sin ejecutar | PENDIENTE |
-| INT-02 | Secuencia del PC | PC=0; ejecutar ocho instrucciones | 0,4,8,12,16,20,24,28,32 | Sin ejecutar | PENDIENTE |
-| INT-03 | addi | x0=0; cargar 12 y -5 | x1=0000000c; x2=fffffffb | Sin ejecutar | PENDIENTE |
-| INT-04 | add | x1=12; x2=-5 | x3=00000007 | Sin ejecutar | PENDIENTE |
-| INT-05 | sub | x1=12; x2=-5 | x4=00000011 | Sin ejecutar | PENDIENTE |
-| INT-06 | and | x1=0000000c; x2=fffffffb | x5=00000008 | Sin ejecutar | PENDIENTE |
-| INT-07 | or | x1=0000000c; x2=fffffffb | x6=ffffffff | Sin ejecutar | PENDIENTE |
-| INT-08 | sw | x5=8; dirección 0xe0 | DMEM[56]=00000008 | Sin ejecutar | PENDIENTE |
-| INT-09 | lw | Mem[0xe0]=8 | x7=00000008 | Sin ejecutar | PENDIENTE |
+| INT-01 | Reset | reset=1; flanco positivo | PC=00000000 | PC=00000000 | PASS |
+| INT-02 | Secuencia del PC | PC=0; ejecutar ocho instrucciones | 0,4,8,12,16,20,24,28,32 | 0,4,8,12,16,20,24,28,32 | PASS |
+| INT-03 | addi | x0=0; cargar 12 y -5 | x1=0000000c; x2=fffffffb | x1=0000000c; x2=fffffffb | PASS |
+| INT-04 | add | x1=12; x2=-5 | x3=00000007 | x3=00000007 | PASS |
+| INT-05 | sub | x1=12; x2=-5 | x4=00000011 | x4=00000011 | PASS |
+| INT-06 | and | x1=0000000c; x2=fffffffb | x5=00000008 | x5=00000008 | PASS |
+| INT-07 | or | x1=0000000c; x2=fffffffb | x6=ffffffff | x6=ffffffff | PASS |
+| INT-08 | sw | x5=8; dirección 0xe0 | DMEM[56]=00000008 | DMEM[56]=00000008 | PASS |
+| INT-09 | lw | Mem[0xe0]=8 | x7=00000008 | x7=00000008 | PASS |
