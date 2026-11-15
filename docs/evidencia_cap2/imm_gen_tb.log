@@ -1,0 +1,9 @@
+IMM-01 esperado=ImmExt=00000005 obtenido=ImmExt=00000005
+IMM-01 PASS
+IMM-02 esperado=ImmExt=ffffffff obtenido=ImmExt=ffffffff
+IMM-02 PASS
+IMM-03 esperado=ImmExt=00000025 obtenido=ImmExt=00000025
+IMM-03 PASS
+IMM-04 esperado=ImmExt=fffffff0 obtenido=ImmExt=fffffff0
+IMM-04 PASS
+<repositorio>\testbench\imm_gen_tb.sv:63: $finish called at 40000 (1ps)

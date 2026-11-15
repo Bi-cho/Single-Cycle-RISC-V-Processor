@@ -39,9 +39,20 @@ RISC-V-CPU/
 │   ├── register_file_tb.sv
 │   ├── imm_gen_tb.sv
 │   ├── mux_tb.sv
-│   └── control_unit_tb.sv
+│   ├── control_unit_tb.sv
+│   └── riscv_single_cycle_tb.sv
+├── programs/
+│   ├── program.s
+│   ├── program.hex
+│   ├── prog2.s
+│   └── prog2.hex
+├── scripts/
+│   ├── run_verification.py
+│   └── verify_programs.py
 ├── docs/
-│   └── matriz_pruebas.md
+│   ├── matriz_pruebas.md
+│   ├── verificacion_cap2.md
+│   └── evidencia_cap2/
 └── README.md
 ```
 
@@ -120,4 +131,20 @@ Cada testbench muestra esperado, obtenido y PASS/FAIL. Los resultados están en 
 | Register File | [Abrir simulación](https://edaplayground.com/x/YxXV) |
 | Immediate Generator | [Abrir simulación](https://edaplayground.com/x/wYfw) |
 | MUX | [Abrir simulación](https://edaplayground.com/x/i8md) |
-| Control Unit | [Abrir simulación](https://edaplayground.com/x/i8md)  |
+| Control Unit | [Abrir simulación](https://edaplayground.com/x/TUw6) |
+
+## Verificación del Capítulo 2 preparada por Andrés
+
+Los programas ilustrativo (6 instrucciones) y propio (23 instrucciones) están en `programs/`, con ensamblador y palabras hexadecimales. Ambos se ejecutaron en Ripes 2.2.6 con `RV32_SS` sin extensiones; las entradas `.s` y `.hex` coincidieron en registros y memoria observada. La regresión local del 14/11/2026 obtuvo 13/13 PASS del Capítulo 1 y 15/15 PASS de control con Icarus 13.0.
+
+El TB de integración prepara 38 casos, pero la ejecución contra el procesador real y su enlace de EDA **están pendientes** de recibir PC, memorias y top. La validación del TB con un modelo temporal no se cuenta como verificación del procesador del equipo.
+
+Instrucciones, resultados esperados, codificación manual y explicación para la defensa: [guía de verificación](docs/verificacion_cap2.md). Los casos de integración están añadidos a la [matriz](docs/matriz_pruebas.md) como PENDIENTE.
+
+```text
+python scripts/run_verification.py
+python scripts/verify_programs.py --ripes RUTA_A_RIPES
+python scripts/run_verification.py --integration
+```
+
+El primer comando ejecuta los cinco TB unitarios; puede recibir `--iverilog RUTA_A_IVERILOG`. El último requiere el RTL completo y devuelve un estado pendiente si falta. Los logs temporales se guardan en `build/`. Para la integración, el script ejecuta desde `programs/` para encontrar los `.hex`; en EDA estos archivos deben agregarse en la raíz del Playground. No ejecutar simultáneamente los TB unitarios y el de integración.

@@ -1,0 +1,2 @@
+programs/*.s text eol=lf
+programs/*.hex text eol=lf

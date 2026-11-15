@@ -1,0 +1,9 @@
+ALU-01 esperado=Result=00000008; Zero=0 obtenido=Result=00000008; Zero=0
+ALU-01 PASS
+ALU-02 esperado=Result=fffffffe; Zero=0 obtenido=Result=fffffffe; Zero=0
+ALU-02 PASS
+ALU-03 esperado=Result=00000000; Zero=1 obtenido=Result=00000000; Zero=1
+ALU-03 PASS
+ALU-04 esperado=Result=00000007; Zero=0 obtenido=Result=00000007; Zero=0
+ALU-04 PASS
+<repositorio>\testbench\alu_tb.sv:64: $finish called at 40000 (1ps)

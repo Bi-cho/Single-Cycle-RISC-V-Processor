@@ -1,0 +1,7 @@
+RF-01 esperado=RD1=00000019 obtenido=RD1=00000019
+RF-01 PASS
+RF-02 esperado=RD1=00000019; RD2=00000032 obtenido=RD1=00000019; RD2=00000032
+RF-02 PASS
+RF-03 esperado=RD1=00000000; RD2=00000000 obtenido=RD1=00000000; RD2=00000000
+RF-03 PASS
+<repositorio>\testbench\register_file_tb.sv:71: $finish called at 36000 (1ps)
