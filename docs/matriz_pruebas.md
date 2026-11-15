@@ -24,3 +24,24 @@ Los 13 casos se ejecutaron en EDA Playground con Icarus Verilog 12.0 y opciones 
 La resta de ALU-02 cubre el resultado negativo y ALU-03 cubre resultado cero y Zero=1.
 
 Simulaciones: [ALU](https://edaplayground.com/x/N9xm), [Register File](https://edaplayground.com/x/YxXV), [Immediate Generator](https://edaplayground.com/x/wYfw), [MUX](https://edaplayground.com/x/i8md).
+
+
+## Capítulo 2 - verificación de integración
+
+Regresión local del 14/11/2026 con Icarus Verilog 13.0 (`-Wall -g2012`): 13/13 PASS de los TB del Capítulo 1 y 15/15 PASS del TB de control existente. Se conserva arriba la evidencia histórica del Capítulo 1.
+
+Programa propio: `programs/program.s` y `programs/program.hex`, ocho instrucciones. Valores de referencia comprobados en Ripes, modelo uniciclo RV32I. Las direcciones son de byte; 0xe0 corresponde a la palabra 56 de DMEM.
+
+**Integración PENDIENTE:** faltan PC, memorias y top. Los resultados de Ripes son valores esperados; la columna Obtenido se completará ejecutando el procesador del equipo.
+
+| ID | Instrucción o secuencia | Condición inicial | Esperado | Obtenido | Estado |
+|---|---|---|---|---|---|
+| INT-01 | Reset | reset=1; flanco positivo | PC=00000000 | Sin ejecutar | PENDIENTE |
+| INT-02 | Secuencia del PC | PC=0; ejecutar ocho instrucciones | 0,4,8,12,16,20,24,28,32 | Sin ejecutar | PENDIENTE |
+| INT-03 | addi | x0=0; cargar 12 y -5 | x1=0000000c; x2=fffffffb | Sin ejecutar | PENDIENTE |
+| INT-04 | add | x1=12; x2=-5 | x3=00000007 | Sin ejecutar | PENDIENTE |
+| INT-05 | sub | x1=12; x2=-5 | x4=00000011 | Sin ejecutar | PENDIENTE |
+| INT-06 | and | x1=0000000c; x2=fffffffb | x5=00000008 | Sin ejecutar | PENDIENTE |
+| INT-07 | or | x1=0000000c; x2=fffffffb | x6=ffffffff | Sin ejecutar | PENDIENTE |
+| INT-08 | sw | x5=8; dirección 0xe0 | DMEM[56]=00000008 | Sin ejecutar | PENDIENTE |
+| INT-09 | lw | Mem[0xe0]=8 | x7=00000008 | Sin ejecutar | PENDIENTE |

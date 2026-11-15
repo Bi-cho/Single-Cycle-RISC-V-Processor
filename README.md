@@ -39,7 +39,11 @@ RISC-V-CPU/
 │   ├── register_file_tb.sv
 │   ├── imm_gen_tb.sv
 │   ├── mux_tb.sv
-│   └── control_unit_tb.sv
+│   ├── control_unit_tb.sv
+│   └── riscv_single_cycle_tb.sv
+├── programs/
+│   ├── program.s
+│   └── program.hex
 ├── docs/
 │   └── matriz_pruebas.md
 └── README.md
@@ -120,4 +124,19 @@ Cada testbench muestra esperado, obtenido y PASS/FAIL. Los resultados están en 
 | Register File | [Abrir simulación](https://edaplayground.com/x/YxXV) |
 | Immediate Generator | [Abrir simulación](https://edaplayground.com/x/wYfw) |
 | MUX | [Abrir simulación](https://edaplayground.com/x/i8md) |
-| Control Unit | [Abrir simulación](https://edaplayground.com/x/i8md)  |
+| Control Unit | [Abrir simulación](https://edaplayground.com/x/TUw6) |
+
+## Prueba de integración del Capítulo 2
+
+El programa propio `programs/program.s` contiene 8 instrucciones y usa las siete operaciones obligatorias. Su codificación está en `programs/program.hex`. Resultados esperados: x1=12, x2=-5, x3=7, x4=17, x5=8, x6=-1, x7=8 y memoria de datos en 0xe0=8.
+
+Las palabras hexadecimales se prepararon desglosando los formatos R, I y S y se validaron en Ripes 2.2.6, modelo Single-cycle RV32I sin extensiones. Se ejecutaron el archivo `.s` ensamblado por Ripes y el binario correspondiente al `.hex`, comprobando registros y memoria. No se desarrolló un ensamblador.
+
+Para simular en EDA Playground:
+
+1. Elegir SystemVerilog e Icarus Verilog 12, con opciones `-Wall -g2012`.
+2. Colocar `riscv_single_cycle_tb.sv` como único testbench y agregar todos los módulos de `src/` al diseño, una sola vez.
+3. Agregar `program.hex` en la raíz del Playground.
+4. Ejecutar y registrar en la matriz los nueve casos: reset, secuencia del PC y las siete instrucciones.
+
+La integración real y su enlace de EDA están pendientes de recibir `program_counter.sv`, `instr_mem.sv`, `data_mem.sv` y `riscv_single_cycle.sv`.
