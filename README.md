@@ -103,7 +103,7 @@ Simulación oficial: EDA Playground con Icarus Verilog 12 (`-Wall -g2012`).
 | Immediate Generator | [Abrir](https://edaplayground.com/x/wYfw) |
 | MUX | [Abrir](https://edaplayground.com/x/i8md) |
 | Control Unit | [Abrir](https://edaplayground.com/x/TUw6) |
-| **Integración (top)** | [Abrir simulación](https://edaplayground.com/x/wYH8) |
+| **Integración (top)** | [Abrir](https://edaplayground.com/x/wYH8) |
 
 ## Cómo correr la integración en EDA Playground
 
